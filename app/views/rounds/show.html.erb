@@ -1,0 +1,51 @@
+<span>Test nr: <%= @round.id %></span>
+<div id="player-one">
+  <div class="temp-wrapper">
+    <div class="header">
+      <div class="player-one">
+        <h1>
+          Player one
+        </h1>
+        <%= @player_one.first_name %>
+      </div>
+      <div class="player-two">
+        <%= @player_two.first_name %>
+      </div>
+    </div>
+    <div class="product">
+      <%= image_tag @product_image_player_one, class: "product-image" %>
+    </div>
+  </div>
+</div>
+
+<div id="player-two" class="hidden">
+  <div class="temp-wrapper">
+    <div class="header">
+      <div class="player-one">
+        <h1>
+          Player two
+        </h1>
+        <%= @player_one.first_name %>
+      </div>
+      <div class="player-two">
+        <%= @player_two.first_name %>
+      </div>
+    </div>
+    <div class="product">
+      <%= image_tag @product_image_player_two, class: "product-image" %>
+    </div>
+  </div>
+</div>
+<div class="timer">
+  <div>
+    <span id="time">02:00</span>
+  </div>
+</div>
+
+<div id="results" class="hidden">
+  <%= form_tag game_path(@game), method: :get, id: 'results-form' do %>
+  <%= hidden_field_tag 'player_one', @player_one.id %>
+  <%= hidden_field_tag 'player_two', @player_one.id %>
+  <%= submit_tag 'Save' %>
+  <% end %>
+</div>

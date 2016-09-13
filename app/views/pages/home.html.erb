@@ -1,2 +1,30 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="header">
+  <h1>Pages#home</h1>
+  <p>Find me in app/views/pages/home.html.erb</p>
+</div>
+
+<div class="new-game">
+  <%= simple_form_for @game do |f| %>
+  <%= f.input :name %>
+  <%= f.submit %>
+  <% end %>
+</div>
+
+<div class="all-games">
+  <% @games.each do |game| %>
+  <div class="game">
+    <%= link_to game_path(game) do %>
+    <%= game.name %>
+    <% end %>
+    <% game.users.each do |user| %>
+    <%= user.first_name %>
+    <%= image_tag user.facebook_picture_url, class: "avatar" %>
+    <% end %>
+    <div class="join">
+    <%= simple_form_for [game, @user_session] do |f| %>
+      <%= f.submit "Join game" %>
+      <% end %>
+    </div>
+  </div>
+  <% end %>
+</div>

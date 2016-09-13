@@ -1,0 +1,14 @@
+<% if @attempt.errors.any? %>
+  // Render new attempt form with errors
+  $('#new_attempt').html("<%= j render 'attempts/form', game: @game, attempt: @attempt %>");
+<% else %>
+  // Create a paragraph for the new attempt. But hide it.
+  // var new_attempt = $("<%= j render 'attempts/show', attempt: @attempt %>").hide();
+  // Add it to the DOM, at the end of the existing attempts. It's still hidden.
+  var attemptWithUser = '#attempt-target' + "<%= @attempt.user.id %>"
+  $(attemptWithUser).attr("src", "<%= @attempt.content %>");
+  // Show the new attempt with an animation!
+  new_attempt.slideDown();
+  // Remove the text from the content textarea.
+  $('#attempt_content').val('');
+<% end %>

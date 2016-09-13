@@ -10,10 +10,46 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160912172839) do
+ActiveRecord::Schema.define(version: 20160913112044) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "attempts", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "game_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "content"
+    t.index ["game_id"], name: "index_attempts_on_game_id", using: :btree
+    t.index ["user_id"], name: "index_attempts_on_user_id", using: :btree
+  end
+
+  create_table "games", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "name"
+  end
+
+  create_table "rounds", force: :cascade do |t|
+    t.integer  "game_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "player_one_id"
+    t.integer  "player_two_id"
+    t.index ["game_id"], name: "index_rounds_on_game_id", using: :btree
+    t.index ["player_one_id"], name: "index_rounds_on_player_one_id", using: :btree
+    t.index ["player_two_id"], name: "index_rounds_on_player_two_id", using: :btree
+  end
+
+  create_table "user_sessions", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "game_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_user_sessions_on_game_id", using: :btree
+    t.index ["user_id"], name: "index_user_sessions_on_user_id", using: :btree
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -28,8 +64,22 @@ ActiveRecord::Schema.define(version: 20160912172839) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "facebook_picture_url"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "token"
+    t.datetime "token_expiry"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "attempts", "games"
+  add_foreign_key "attempts", "users"
+  add_foreign_key "rounds", "games"
+  add_foreign_key "rounds", "users", column: "player_one_id"
+  add_foreign_key "rounds", "users", column: "player_two_id"
+  add_foreign_key "user_sessions", "games"
+  add_foreign_key "user_sessions", "users"
 end

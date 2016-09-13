@@ -1,0 +1,34 @@
+<div class="container">
+<div class="row">
+  <div class="col-xs-12">
+    <%= link_to root_path do %>
+    <i class="fa fa-arrow-left"></i>
+    <% end %>
+  </div>
+</div>
+  <div class="row">
+    <% @game.users.each do |user| %>
+    <div class="hidden-xs hidden-md col-lg-12">
+      <%= image_tag "http://media1.giphy.com/media/F9AU77Krzw8ta/200.gif", id:"attempt-target#{user.id}" %> 
+    </div>
+    <% end %>
+    <div class="hidden-lg hidden-md col-xs-12">
+      <div class="game-header">
+        <h1>
+          <%= @game.name %>
+        </h1>
+      </div>
+
+      <div class="users">
+        <% @game.users.each do |user| %>
+        <%= image_tag user.facebook_picture_url, class: "avatar" %>
+        <% end %>
+      </div>
+
+      <div class="attempt">
+        <%= render 'attempts/form', game: @game, attempt: @attempt %>
+      </div>
+
+    </div>
+  </div>
+</div>
